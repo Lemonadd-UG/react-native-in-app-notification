@@ -120,7 +120,7 @@ class Notification extends Component {
       <Animated.View
         style={[
           styles.notification,
-          { height, backgroundColor: type === 'success' ? '#3FCA59' : '#EC5252' },
+          { height},
           {
             transform: [
               {
@@ -140,7 +140,8 @@ class Notification extends Component {
           isOpen={isOpen}
           iconApp={iconApp}
           icon={icon}
-          vibrate={vibrate}
+          vibrate={false}
+          type={type}
           onClose={() => this.setState({ isOpen: false }, this.closeNotification)}
           additionalProps={this.state.additionalProps}
         />
