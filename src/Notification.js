@@ -29,11 +29,12 @@ class Notification extends Component {
   }
 
   show(
-    { title, message, onPress, icon, vibrate, additionalProps } = {
+    { title, message, onPress, icon, vibrate, type, additionalProps } = {
       title: '',
       message: '',
       onPress: null,
       icon: null,
+      type: 'success',
       vibrate: true,
       additionalProps: {},
     },
@@ -54,6 +55,7 @@ class Notification extends Component {
           onPress,
           icon,
           vibrate,
+          type,
           additionalProps,
         },
         () => this.showNotification(() => {
@@ -65,6 +67,7 @@ class Notification extends Component {
                 message: '',
                 onPress: null,
                 icon: null,
+                type: '',
                 vibrate: true,
                 additionalProps,
               },
@@ -109,7 +112,7 @@ class Notification extends Component {
       notificationBodyComponent: NotificationBody,
     } = this.props;
 
-    const { animatedValue, title, message, onPress, isOpen, icon, vibrate } = this.state;
+    const { animatedValue, title, message, onPress, isOpen, icon, vibrate, type } = this.state;
 
     const height = baseHeight + this.heightOffset;
 
@@ -117,7 +120,7 @@ class Notification extends Component {
       <Animated.View
         style={[
           styles.notification,
-          { height, backgroundColor: backgroundColour },
+          { height, backgroundColor: type === 'success' ? '#3FCA59' : '#EC5252' },
           {
             transform: [
               {
