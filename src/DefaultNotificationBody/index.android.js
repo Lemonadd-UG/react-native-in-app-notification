@@ -6,14 +6,15 @@ import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures'
 const styles = {
   container: {
     flex: 1,
-  },
-  rootError: {
-    flex: 1,
-    backgroundColor: '#EC5252',
+    backgroundColor: '#050505',
   },
   rootSuccess: {
     flex: 1,
     backgroundColor: '#3FCA59',
+  },
+  rootError: {
+    flex: 1,
+    backgroundColor: '#EC5252',
   },
   content: {
     flex: 1,
@@ -77,23 +78,37 @@ class DefaultNotificationBody extends React.Component {
     }
   }
 
+  renderStyle = () => {
+    if (!this.props.isOpen) {
+      return styles.container
+    } else if(this.props.type === 'success') {
+      return styles.rootSuccess
+    } else {
+      return styles.rootError
+    }
+  }
+
   render() {
     const {
       title,
       message,
-      type
+      iconApp,
+      icon,
     } = this.props;
 
     return (
-      <GestureRecognizer onSwipe={this.onSwipe} style={type === 'success' ? styles.rootSuccess : styles.rootError}>
+      <GestureRecognizer onSwipe={this.onSwipe} style={ths.renderStyle()}>
         <TouchableOpacity
           style={styles.content}
           activeOpacity={0.3}
           underlayColor="transparent"
           onPress={this.onNotificationPress}
         >
+          <View style={styles.iconContainer}>
+            {(icon || iconApp) && <Image source={icon || iconApp} style={styles.icon} />}
+          </View>
           <View style={styles.textContainer}>
-            <Text numberOfLines={1} style={styles.message}>{title}</Text>
+            <Text numberOfLines={1} style={styles.title}>{title}</Text>
             <Text numberOfLines={1} style={styles.message}>{message}</Text>
           </View>
         </TouchableOpacity>
