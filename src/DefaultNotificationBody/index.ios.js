@@ -5,13 +5,17 @@ import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 
 const styles = {
-  rootError: {
+  root: {
     flex: 1,
-    backgroundColor: '#EC5252',
+    backgroundColor: '#050505',
   },
   rootSuccess: {
     flex: 1,
     backgroundColor: '#3FCA59',
+  },
+  rootError: {
+    flex: 1,
+    backgroundColor: '#EC5252',
   },
   container: {
     position: 'absolute',
@@ -111,16 +115,23 @@ class DefaultNotificationBody extends React.Component {
 
     return null;
   }
-
+  renderStyle = () => {
+    if (!this.props.isOpen) {
+      return styles.root
+    } else if(this.props.type === 'success') {
+      return styles.rootSuccess
+    } else {
+      return styles.rootError
+    }
+  }
   render() {
     const {
       title,
       message,
-      type
     } = this.props;
 
     return (
-      <View style={type === 'success' ? styles.rootSuccess : styles.rootError}>
+      <View style={this.renderStyle()}>
         <GestureRecognizer onSwipe={this.onSwipe} style={styles.container}>
           <TouchableOpacity
             style={styles.content}
@@ -130,10 +141,12 @@ class DefaultNotificationBody extends React.Component {
           >
             {this.renderIcon()}
             <View style={styles.textContainer}>
-              <Text numberOfLines={1} style={styles.message}>{title}</Text>
+              <Text numberOfLines={1} style={styles.title}>{title}</Text>
               <Text numberOfLines={1} style={styles.message}>{message}</Text>
             </View>
           </TouchableOpacity>
+
+          <View style={styles.footer} />
         </GestureRecognizer>
       </View>
     );
